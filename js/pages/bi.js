@@ -9,7 +9,6 @@
     return `<div class="page">
       ${pageHead('Business Intelligence','Painéis analíticos multidimensionais — combine indicadores, dimensões e períodos como no Power BI.',{crumbs:['Inteligência'],actions:`${seg}
         <button class="btn ghost">${icon('download')}<span class="hide-sm">Exportar</span></button>`})}
-      ${aiBanner({text:'Atenção: sua <b>margem caiu 4%</b> em Lentes de Contato neste trimestre — avalie renegociar preços com a Alcon.',cta:'Ver financeiro',route:'financeiro'})}
       ${views[view]()}
     </div>`;
   }
@@ -17,10 +16,10 @@
   const views={
     geral(){
       const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-        ${kpiCard({label:'Faturamento (12m)',value:5238000,delta:12,icon:'trending-up',tone:'primary',fmt:fmt.moneyK})}
-        ${kpiCard({label:'Margem consolidada',value:57.2,delta:2.1,icon:'percent',tone:'success',fmt:v=>fmt.dec(v)+'%'})}
-        ${kpiCard({label:'Clientes ativos',value:1284,delta:6,icon:'users',tone:'info',fmt:fmt.num})}
-        ${kpiCard({label:'NPS geral',value:87,delta:4,icon:'smile',tone:'violet',fmt:v=>v})}`+'</div>';
+        ${kpiCard({label:'Faturamento (12m)',value:0,delta:0,icon:'trending-up',tone:'primary',fmt:fmt.moneyK})}
+        ${kpiCard({label:'Margem consolidada',value:0,delta:0,icon:'percent',tone:'success',fmt:v=>fmt.dec(v)+'%'})}
+        ${kpiCard({label:'Clientes ativos',value:0,delta:0,icon:'users',tone:'info',fmt:fmt.num})}
+        ${kpiCard({label:'NPS geral',value:0,delta:0,icon:'smile',tone:'violet',fmt:v=>v})}`+'</div>';
       const lojas=Charts.groupedBars(['Jan','Fev','Mar','Abr','Mai','Jun'],[
         {name:'Matriz',color:'var(--c1)',data:[210,198,232,241,255,268]},
         {name:'Shopping',color:'var(--c3)',data:[142,150,161,158,172,181]},

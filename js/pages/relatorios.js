@@ -15,7 +15,6 @@
       ${pageHead('Relatórios','Central com dezenas de relatórios profissionais — exporte em PDF, Excel ou agende envios.',{crumbs:['Crescimento'],actions:`
         <button class="btn ghost">${icon('clock')}<span class="hide-sm">Agendados</span></button>
         <button class="btn primary" onclick="toast('Construtor de relatório (demo)','info')">${icon('plus')} Relatório personalizado</button>`})}
-      ${aiBanner({text:'Destaque da IA: o relatório de <b>Ciclo de Troca (LTV)</b> revela <b>34 clientes</b> prontos para recompra este mês.',cta:'Abrir relatório',action:"openReport('Ciclo de Troca (LTV)')"})}
       <div class="card pad reveal" style="margin-bottom:var(--gap)">
         <div class="row between center fw" style="gap:12px">
           <div class="input-ico f-1" style="min-width:220px">${icon('search')}<input class="input" placeholder="Buscar relatório..." style="padding-left:40px"></div>

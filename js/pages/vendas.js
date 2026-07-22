@@ -27,7 +27,6 @@
       ${pageHead('Vendas · PDV','Ponto de venda rápido — monte o pedido, receba e gere a ordem de serviço automaticamente.',{crumbs:['Operação'],actions:`
         <span class="badge success dot">Caixa aberto</span>
         <button class="btn ghost" onclick="App.go('financeiro')">${icon('wallet')}<span class="hide-sm">Caixa</span></button>`})}
-      ${aiBanner({text:'Dica da IA: ofereça <b>tratamento antirreflexo</b> no fechamento — eleva o ticket médio em <b>18%</b> nas armações de grau.',cta:'',route:''})}
       <div class="pos">
         <div class="col">
           <div class="card pad reveal">

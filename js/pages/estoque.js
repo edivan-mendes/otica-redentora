@@ -40,7 +40,6 @@
         <button class="btn ghost" onclick="openMov('Saída')">${icon('minus')}<span class="hide-sm">Saída</span></button>
         <button class="btn primary" onclick="openMov('Entrada')">${icon('plus')} Entrada</button>`})}
       ${kpis}
-      ${aiBanner({text:'A IA sugere <b>comprar 20 armações Ray-Ban</b> e <b>40 lentes Zeiss Blue</b> para evitar ruptura nos próximos 6 dias.',cta:'Gerar pedido',route:'ia'})}
       <div class="grid g-3" style="margin-bottom:var(--gap)">
         ${panel({title:'Curva ABC',sub:'Concentração de valor no estoque',icon:'layers',tone:'violet',body:`<div class="row center" style="gap:16px"><div>${abcDonut}</div><div class="f-1">${abcLegend}</div></div>`})}
         ${panel({title:'Sugestão de reposição inteligente',sub:'Baseada em giro e lead time — Redentora IA',icon:'sparkles',tone:'primary',cls:'span-2',

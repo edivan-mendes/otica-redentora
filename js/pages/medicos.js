@@ -7,12 +7,13 @@
     const totalVal=med.reduce((a,m)=>a+m.valor,0);
 
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-      ${kpiCard({label:'Médicos parceiros',value:med.length,delta:9,icon:'stethoscope',tone:'primary',fmt:fmt.num})}
-      ${kpiCard({label:'Encaminhamentos',value:totalEnc,delta:14,icon:'user-plus',tone:'info',fmt:fmt.num,sub:'no ano'})}
-      ${kpiCard({label:'Receita por indicação',value:totalVal,delta:16,icon:'dollar-sign',tone:'success',fmt:fmt.moneyK})}
-      ${kpiCard({label:'NPS médio',value:91,delta:2,icon:'smile',tone:'violet',fmt:v=>v})}
+      ${kpiCard({label:'Médicos parceiros',value:med.length,delta:0,icon:'stethoscope',tone:'primary',fmt:fmt.num})}
+      ${kpiCard({label:'Encaminhamentos',value:totalEnc,delta:0,icon:'user-plus',tone:'info',fmt:fmt.num,sub:'no ano'})}
+      ${kpiCard({label:'Receita por indicação',value:totalVal,delta:0,icon:'dollar-sign',tone:'success',fmt:fmt.moneyK})}
+      ${kpiCard({label:'NPS médio',value:0,delta:0,icon:'smile',tone:'violet',fmt:v=>v})}
     </div>`;
 
+    const oft=med.filter(m=>m.esp==='Oftalmologista').length, opt=med.length-oft;
     const ranking=Charts.hbars(med.map(m=>({label:m.nome,v:m.valor})),{fmt:fmt.moneyK});
 
     const rows=med.map((m,i)=>`
@@ -33,17 +34,17 @@
         <button class="btn ghost">${icon('download')}<span class="hide-sm">Exportar</span></button>
         <button class="btn primary" onclick="toast('Formulário de cadastro (demo)','info')">${icon('plus')} Novo médico</button>`})}
       ${kpis}
-      ${aiBanner({text:'<b>Dr. Paulo Andrade</b> tem a maior taxa de conversão (72%). Ampliar a parceria pode gerar <b>+R$ 22k/mês</b>.',cta:'Ver médico',route:'medicos'})}
       <div class="grid g-3" style="margin-bottom:var(--gap)">
         ${panel({title:'Ranking por faturamento indicado',sub:'Receita gerada por médico',icon:'award',tone:'warning',cls:'span-2',body:ranking})}
         ${panel({title:'Distribuição por especialidade',sub:'',icon:'pie-chart',tone:'violet',body:`
-          <div class="row center" style="gap:16px">${Charts.donut([{label:'Oftalmologista',v:4,c:'var(--c1)'},{label:'Optometrista',v:2,c:'var(--c2)'}],{size:150,center:'<div class="rv" style="font-size:15px">6</div><div class="rl">parceiros</div>'})}
-          <div class="f-1 legend"><div class="li"><span class="sw" style="background:var(--c1)"></span>Oftalmologistas<span class="lv">4</span></div><div class="li"><span class="sw" style="background:var(--c2)"></span>Optometristas<span class="lv">2</span></div></div></div>
-          <div class="insight ai mt-3"><div class="tag-ai">${icon('sparkles')} Sugestão IA</div><p>Dr. Paulo Andrade tem a maior taxa de conversão (72%). Vale ampliar o programa de parceria com ele.</p></div>`})}
+          <div class="row center" style="gap:16px">${Charts.donut([{label:'Oftalmologista',v:oft,c:'var(--c1)'},{label:'Optometrista',v:opt,c:'var(--c2)'}],{size:150,center:`<div class="rv" style="font-size:15px">${med.length}</div><div class="rl">parceiros</div>`})}
+          <div class="f-1 legend"><div class="li"><span class="sw" style="background:var(--c1)"></span>Oftalmologistas<span class="lv">${oft}</span></div><div class="li"><span class="sw" style="background:var(--c2)"></span>Optometristas<span class="lv">${opt}</span></div></div></div>`})}
       </div>
-      ${panel({title:'Médicos parceiros',sub:'Ordenado por receita indicada',icon:'stethoscope',pad:false,
+      ${panel({title:'Médicos parceiros',sub:med.length+' cadastrados',icon:'stethoscope',pad:false,
         actions:`<label class="search" style="max-width:240px;height:38px"><span>${icon('search')}</span><input placeholder="Buscar médico..."></label>`,
-        body:`<div class="table-wrap"><table class="data"><thead><tr><th>#</th><th>Médico</th><th>Especialidade</th><th>Cidade</th><th class="td-c">Encaminhados</th><th class="td-r">Faturamento</th><th class="td-c">NPS</th><th class="td-r">Tend.</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`})}
+        body: med.length
+          ? `<div class="table-wrap"><table class="data"><thead><tr><th>#</th><th>Médico</th><th>Especialidade</th><th>Cidade</th><th class="td-c">Encaminhados</th><th class="td-r">Faturamento</th><th class="td-c">NPS</th><th class="td-r">Tend.</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`
+          : `<div class="empty" style="padding:56px 20px">${icon('stethoscope')}<h3 style="font-size:16px;margin-bottom:6px">Nenhum médico cadastrado</h3><p style="max-width:380px;margin:0 auto 16px">Cadastre os médicos parceiros para acompanhar encaminhamentos e faturamento por indicação.</p><button class="btn primary" onclick="toast('Formulário de cadastro (demo)','info')">${icon('plus')} Cadastrar médico</button></div>`})}
     </div>`;
   }
   App.register('medicos',{render});

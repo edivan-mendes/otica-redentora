@@ -44,7 +44,6 @@
         <div class="segmented"><button>Semana</button><button class="active">Mês</button><button>Ano</button></div>
         <button class="btn primary" onclick="toast('Novo lançamento (demo)','info')">${icon('plus')} Lançamento</button>`})}
       ${kpis}
-      ${aiBanner({text:'A IA identificou um gasto <b>34% acima do normal</b> em "Serviços de laboratório" neste mês. Vale revisar os pedidos ao ProLentes.',cta:'Investigar',route:'laboratorios'})}
       <div class="grid g-3" style="margin-bottom:var(--gap)">
         ${panel({title:'Fluxo de caixa projetado',sub:'Saldo acumulado — próximos 30 dias',icon:'wallet',tone:'primary',cls:'span-2',
           actions:`<span class="badge success dot">Saldo saudável</span>`,body:fluxo})}

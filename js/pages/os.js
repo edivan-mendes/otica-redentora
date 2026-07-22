@@ -5,10 +5,10 @@
     const os=DATA.ordens;
     const resumo=DATA.osStatusResumo;
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-      ${kpiCard({label:'OS abertas',value:64,delta:-6,icon:'clipboard-list',tone:'primary',fmt:fmt.num})}
-      ${kpiCard({label:'Prontas p/ retirada',value:12,delta:9,icon:'check-circle',tone:'success',fmt:fmt.num})}
-      ${kpiCard({label:'Atrasadas',value:3,delta:-2,icon:'alert-triangle',tone:'danger',fmt:fmt.num})}
-      ${kpiCard({label:'Prazo médio',value:6.4,delta:-0.4,icon:'clock',tone:'info',fmt:v=>v+' dias'})}
+      ${kpiCard({label:'OS abertas',value:0,delta:0,icon:'clipboard-list',tone:'primary',fmt:fmt.num})}
+      ${kpiCard({label:'Prontas p/ retirada',value:0,delta:0,icon:'check-circle',tone:'success',fmt:fmt.num})}
+      ${kpiCard({label:'Atrasadas',value:0,delta:0,icon:'alert-triangle',tone:'danger',fmt:fmt.num})}
+      ${kpiCard({label:'Prazo médio',value:0,delta:0,icon:'clock',tone:'info',fmt:v=>v+' dias'})}
     </div>`;
 
     const pipe=`<div class="row fw" style="gap:12px">${resumo.map(s=>`
@@ -33,12 +33,13 @@
         <button class="btn ghost">${icon('filter')}<span class="hide-sm">Filtros</span></button>
         <button class="btn primary" onclick="App.go('vendas')">${icon('plus')} Nova OS</button>`})}
       ${kpis}
-      ${aiBanner({text:'Priorize as <b>2 OS atrasadas</b>: o laboratório <b>LenSys</b> está com prazo 24% acima do normal esta semana.',cta:'Ver laboratórios',route:'laboratorios'})}
       <div class="reveal" style="margin-bottom:var(--gap)">${pipe}</div>
-      ${panel({title:'Ordens de serviço',sub:'Clique para ver a linha do tempo',icon:'clipboard-list',pad:false,
+      ${panel({title:'Ordens de serviço',sub:os.length+' ordens',icon:'clipboard-list',pad:false,
         actions:`<label class="search" style="max-width:240px;height:38px"><span>${icon('search')}</span><input placeholder="Buscar OS ou cliente..."></label>`,
-        body:`<div style="padding:14px 20px 0">${filterChips(['Todas','Produção','Montagem','Qualidade','Prontas','Atrasadas'])}</div>
-        <div class="table-wrap" style="padding-top:8px"><table class="data"><thead><tr><th>OS</th><th>Cliente</th><th>Laboratório</th><th>Status</th><th>Progresso</th><th class="td-c">Prazo</th><th class="td-r">Valor</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`})}
+        body: os.length
+          ? `<div style="padding:14px 20px 0">${filterChips(['Todas','Produção','Montagem','Qualidade','Prontas','Atrasadas'])}</div>
+        <div class="table-wrap" style="padding-top:8px"><table class="data"><thead><tr><th>OS</th><th>Cliente</th><th>Laboratório</th><th>Status</th><th>Progresso</th><th class="td-c">Prazo</th><th class="td-r">Valor</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`
+          : `<div class="empty" style="padding:56px 20px">${icon('clipboard-list')}<h3 style="font-size:16px;margin-bottom:6px">Nenhuma ordem de serviço</h3><p style="max-width:380px;margin:0 auto 16px">As ordens de serviço são geradas automaticamente ao finalizar uma venda no PDV.</p><button class="btn primary" onclick="App.go('vendas')">${icon('shopping-cart')} Ir para o PDV</button></div>`})}
     </div>`;
   }
 

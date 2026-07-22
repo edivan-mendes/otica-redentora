@@ -11,10 +11,10 @@
     const ativos=cli.filter(c=>c.status!=='Inativo').length;
 
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-      ${kpiCard({label:'Base de clientes',value:1284,delta:6.1,icon:'users',tone:'primary',fmt:fmt.num,sub:'total cadastrado'})}
-      ${kpiCard({label:'Clientes VIP',value:96,delta:12,icon:'star',tone:'violet',fmt:fmt.num,sub:'alto valor'})}
-      ${kpiCard({label:'LTV médio',value:8940,delta:4.2,icon:'dollar-sign',tone:'success',fmt:m0,sub:'valor vitalício'})}
-      ${kpiCard({label:'Prontos p/ trocar',value:34,delta:18,icon:'repeat',tone:'warning',fmt:fmt.num,sub:'ciclo atingido'})}
+      ${kpiCard({label:'Base de clientes',value:0,delta:0,icon:'users',tone:'primary',fmt:fmt.num,sub:'total cadastrado'})}
+      ${kpiCard({label:'Clientes VIP',value:0,delta:0,icon:'star',tone:'violet',fmt:fmt.num,sub:'alto valor'})}
+      ${kpiCard({label:'LTV médio',value:0,delta:0,icon:'dollar-sign',tone:'success',fmt:m0,sub:'valor vitalício'})}
+      ${kpiCard({label:'Prontos p/ trocar',value:0,delta:0,icon:'repeat',tone:'warning',fmt:fmt.num,sub:'ciclo atingido'})}
     </div>`;
 
     const rows=cli.map(c=>`
@@ -35,13 +35,15 @@
         <button class="btn ghost">${icon('download')}<span class="hide-sm">Exportar</span></button>
         <button class="btn primary" onclick="openClienteForm()">${icon('user-plus')} Novo cliente</button>`})}
       ${kpis}
-      ${panel({title:'Diretório de clientes',sub:'1.284 registros',icon:'users',pad:false,
+      ${panel({title:'Diretório de clientes',sub:cli.length+' registros',icon:'users',pad:false,
         actions:`<label class="search" style="max-width:280px;height:38px"><span>${icon('search')}</span><input placeholder="Buscar por nome, CPF, telefone..."></label>
           <button class="btn sm ghost">${icon('filter')} Filtros</button>`,
-        body:`<div style="padding:14px 20px 0">${filterChips(['Todos','Ativos','VIP','Inativos','Aniversariantes','Sem comprar +6m'],0)}</div>
+        body: cli.length
+          ? `<div style="padding:14px 20px 0">${filterChips(['Todos','Ativos','VIP','Inativos','Aniversariantes','Sem comprar +6m'],0)}</div>
           <div class="table-wrap" style="padding:6px 6px 10px"><table class="data">
           <thead><tr><th>Cliente</th><th>Status</th><th>Contato</th><th>Cidade</th><th class="td-r">LTV</th><th class="td-c">Últ. compra</th><th class="td-c">Próx. troca</th><th class="td-c">Score</th><th></th></tr></thead>
-          <tbody>${rows}</tbody></table></div>`})}
+          <tbody>${rows}</tbody></table></div>`
+          : `<div class="empty" style="padding:56px 20px">${icon('users')}<h3 style="font-size:16px;margin-bottom:6px">Nenhum cliente cadastrado</h3><p style="max-width:380px;margin:0 auto 16px">Cadastre seus clientes com foto, receitas, garantias e histórico de compras — tudo em um só lugar.</p><button class="btn primary" onclick="openClienteForm()">${icon('user-plus')} Cadastrar cliente</button></div>`})}
     </div>`;
   }
 

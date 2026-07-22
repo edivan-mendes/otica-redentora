@@ -16,6 +16,7 @@ function smoothPath(pts){
   return d;
 }
 const money = v => 'R$ ' + Number(v).toLocaleString('pt-BR',{maximumFractionDigits:0});
+const _nodata = (h=180)=>`<div class="chart" style="height:${h}px"><div style="height:100%;display:grid;place-items:center;color:var(--faint);font-size:12.5px;font-weight:600;text-align:center">Sem dados ainda</div></div>`;
 
 const Charts = {
   /* ---- Sparkline (mini) ---- */
@@ -39,6 +40,7 @@ const Charts = {
     const W=680, pad={l:52,r:16,t:16,b:34};
     const iw=W-pad.l-pad.r, ih=h-pad.t-pad.b;
     const all=series.flatMap(s=>s.data.filter(v=>v!=null));
+    if(!all.length || all.every(v=>v===0)) return _nodata(h);
     let max=Math.max(...all), min=Math.min(0,...all);
     max=max*1.12||10; const rng=(max-min)||1;
     const xOf=i=>pad.l+(i/(labels.length-1))*iw;
@@ -71,6 +73,7 @@ const Charts = {
 
   /* ---- Bars (vertical) com linha de meta opcional ---- */
   bars(labels, data, {h=260, color='var(--c1)', target=null, yFmt=money, gradient=true, axisFmt=null}={}){
+    if(!data.length || data.every(v=>!v)) return _nodata(h);
     const W=680, pad={l:48,r:16,t:16,b:34};
     const iw=W-pad.l-pad.r, ih=h-pad.t-pad.b;
     const aFmt=axisFmt||fmt.moneyK;
@@ -98,9 +101,11 @@ const Charts = {
 
   /* ---- Grouped bars ---- */
   groupedBars(labels, series, {h=280, yFmt=money}={}){
+    const _flat=series.flatMap(s=>s.data);
+    if(!_flat.length || _flat.every(v=>!v)) return _nodata(h);
     const W=680, pad={l:48,r:16,t:20,b:34};
     const iw=W-pad.l-pad.r, ih=h-pad.t-pad.b;
-    const max=Math.max(...series.flatMap(s=>s.data))*1.15||10;
+    const max=Math.max(..._flat)*1.15||10;
     const gap=iw/labels.length, n=series.length, bw=gap*0.66/n;
     const yOf=v=>pad.t+ih-(v/max)*ih;
     let gl=''; for(let t=0;t<=4;t++){ const y=pad.t+ih*(t/4);
@@ -150,7 +155,7 @@ const Charts = {
   /* ---- Gauge (meia lua) ---- */
   gauge(value, max, {label='', color='var(--primary)', h=150}={}){
     const w=260, cx=w/2, cy=h-14, r=104, C=Math.PI*r;
-    const pct=Math.min(value/max,1), len=pct*C, id=uid();
+    const pct=max>0?Math.min(value/max,1):0, len=pct*C, id=uid();
     const ang=Math.PI*(1-pct), nx=cx+r*Math.cos(ang), ny=cy-r*Math.sin(ang);
     return `<div class="ring-wrap" style="width:100%">
       <svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px">
@@ -166,7 +171,8 @@ const Charts = {
 
   /* ---- Horizontal bars (ranking) ---- */
   hbars(items, {max=null, fmt:f=money, color=null}={}){
-    const mx=max||Math.max(...items.map(i=>i.v))*1.05;
+    if(!items.length || items.every(i=>!i.v)) return _nodata(120);
+    const mx=(max||Math.max(...items.map(i=>i.v))*1.05)||1;
     return `<div class="col" style="gap:13px">${items.map((it,i)=>{
       const pct=(it.v/mx)*100, c=color||it.c||['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)','var(--c6)'][i%6];
       return `<div><div class="row between" style="margin-bottom:6px"><span style="font-weight:600;font-size:12.5px">${it.label||it.nome}</span><span class="num" style="font-weight:700;font-size:12.5px">${f(it.v)}</span></div>
@@ -190,9 +196,10 @@ const Charts = {
 
   /* ---- Funnel ---- */
   funnel(items){
-    const max=items[0].v;
+    if(!items.length || items.every(i=>!i.v)) return _nodata(120);
+    const max=items[0].v||1;
     return `<div class="col" style="gap:10px">${items.map((it,i)=>{
-      const pct=(it.v/max)*100, conv=i>0?Math.round(it.v/items[i-1].v*100):100;
+      const pct=(it.v/max)*100, conv=i>0&&items[i-1].v?Math.round(it.v/items[i-1].v*100):100;
       return `<div><div class="row between" style="margin-bottom:5px">
         <span style="font-weight:600;font-size:13px">${it.label}</span>
         <span class="num" style="font-weight:800">${fmt.num(it.v)} <small class="muted" style="font-weight:600">${i>0?'· '+conv+'%':''}</small></span></div>
@@ -202,7 +209,7 @@ const Charts = {
 
   /* ---- Waterfall (DRE simplificado) ---- */
   bullet(value, target, {color='var(--primary)'}={}){
-    const max=Math.max(value,target)*1.1, vp=(value/max)*100, tp=(target/max)*100;
+    const max=(Math.max(value,target)*1.1)||1, vp=(value/max)*100, tp=(target/max)*100;
     return `<div style="position:relative;height:14px;border-radius:8px;background:var(--surface-2)">
       <i class="grow-h" style="position:absolute;left:0;top:0;height:100%;border-radius:8px;width:${vp}%;background:${color};display:block"></i>
       <span style="position:absolute;top:-3px;left:${tp}%;width:2px;height:20px;background:var(--text)"></span></div>`;

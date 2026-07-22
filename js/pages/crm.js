@@ -3,10 +3,10 @@
   const m0=v=>fmt.money(v,0);
   function render(){
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-      ${kpiCard({label:'Campanhas ativas',value:4,delta:1,icon:'megaphone',tone:'primary',fmt:fmt.num})}
-      ${kpiCard({label:'Mensagens enviadas',value:2190,delta:22,icon:'send',tone:'info',fmt:fmt.num,sub:'no mês'})}
-      ${kpiCard({label:'Taxa de conversão',value:18.4,delta:3.2,icon:'target',tone:'success',fmt:v=>fmt.dec(v)+'%'})}
-      ${kpiCard({label:'Receita atribuída',value:64800,delta:28,icon:'dollar-sign',tone:'violet',fmt:fmt.moneyK})}
+      ${kpiCard({label:'Campanhas ativas',value:0,delta:0,icon:'megaphone',tone:'primary',fmt:fmt.num})}
+      ${kpiCard({label:'Mensagens enviadas',value:0,delta:0,icon:'send',tone:'info',fmt:fmt.num,sub:'no mês'})}
+      ${kpiCard({label:'Taxa de conversão',value:0,delta:0,icon:'target',tone:'success',fmt:v=>fmt.dec(v)+'%'})}
+      ${kpiCard({label:'Receita atribuída',value:0,delta:0,icon:'dollar-sign',tone:'violet',fmt:fmt.moneyK})}
     </div>`;
 
     const campRows=DATA.campanhas.map(c=>`<tr>
@@ -39,7 +39,6 @@
         <button class="btn ghost" onclick="App.go('ia')">${icon('sparkles')}<span class="hide-sm">Sugerir IA</span></button>
         <button class="btn primary" onclick="toast('Nova campanha (demo)','info')">${icon('plus')} Nova campanha</button>`})}
       ${kpis}
-      ${aiBanner({text:'<b>53 clientes</b> estão prontos para uma campanha de recompra — potencial estimado de <b>R$ 44.700</b> este mês.',cta:'Criar campanha',action:"toast('Campanha inteligente criada para 53 clientes','success')"})}
       <div class="grid g-4" style="margin-bottom:var(--gap)">${segmentos}</div>
       <div class="grid g-3" style="margin-bottom:var(--gap)">
         ${panel({title:'Funil de conversão',sub:'Do lead à venda no mês',icon:'target',tone:'primary',cls:'span-2',body:funil})}

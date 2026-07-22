@@ -28,7 +28,6 @@
       ${pageHead('Agenda','Consultas, entregas, retornos, visitas e compromissos em um calendário único.',{crumbs:['Operação'],actions:`
         <div class="segmented"><button>Dia</button><button>Semana</button><button class="active">Mês</button></div>
         <button class="btn primary" onclick="toast('Novo compromisso (demo)','info')">${icon('plus')} Compromisso</button>`})}
-      ${aiBanner({text:'<b>Amanhã (14/07)</b> deve ser o dia de <b>maior fluxo do mês</b> — 9 compromissos e pico de vendas às 15h. Reforce a equipe.',cta:'Ver dia',action:"openDay(14)"})}
       <div class="grid g-3">
         ${panel({title:'Julho 2026',sub:'Clique em um dia com eventos',icon:'calendar',tone:'primary',cls:'span-2',
           actions:`<button class="icon-btn">${icon('chevron-left')}</button><button class="icon-btn">${icon('chevron-right')}</button>`,

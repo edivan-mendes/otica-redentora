@@ -5,9 +5,9 @@
     const labs=DATA.laboratorios;
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
       ${kpiCard({label:'Laboratórios ativos',value:labs.length,delta:0,icon:'flask',tone:'primary',fmt:fmt.num})}
-      ${kpiCard({label:'Prazo médio geral',value:6.9,delta:-0.3,icon:'clock',tone:'info',fmt:v=>v+' dias'})}
-      ${kpiCard({label:'Pedidos no ano',value:641,delta:11,icon:'clipboard-list',tone:'success',fmt:fmt.num})}
-      ${kpiCard({label:'Índice de qualidade',value:93,delta:1.5,icon:'shield',tone:'violet',fmt:v=>v+'%'})}
+      ${kpiCard({label:'Prazo médio geral',value:0,delta:0,icon:'clock',tone:'info',fmt:v=>v+' dias'})}
+      ${kpiCard({label:'Pedidos no ano',value:0,delta:0,icon:'clipboard-list',tone:'success',fmt:fmt.num})}
+      ${kpiCard({label:'Índice de qualidade',value:0,delta:0,icon:'shield',tone:'violet',fmt:v=>v+'%'})}
     </div>`;
 
     const prazoBars=Charts.bars(labs.map(l=>l.nome),labs.map(l=>l.prazoMedio),{h:220,color:'var(--c2)',axisFmt:v=>v+'d',yFmt:v=>v+' dias'});
@@ -34,7 +34,6 @@
         <button class="btn ghost">${icon('download')}<span class="hide-sm">Relatório</span></button>
         <button class="btn primary" onclick="toast('Cadastro de laboratório (demo)','info')">${icon('plus')} Novo laboratório</button>`})}
       ${kpis}
-      ${aiBanner({text:'Redirecione as urgências ao <b>VisionLab</b> (98% de qualidade, 5,8 dias). O <b>ProLentes</b> acumula 11 atrasos — hora de renegociar o SLA.',cta:'Analisar com IA',route:'ia'})}
       <div class="grid g-2" style="margin-bottom:var(--gap)">${cards}</div>
       <div class="grid g-2">
         ${panel({title:'Prazo médio de entrega',sub:'Dias por laboratório',icon:'clock',tone:'info',body:prazoBars})}

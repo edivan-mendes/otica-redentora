@@ -6,10 +6,10 @@
   function render(param){
     const tab = TABS.find(t=>t[0]===param) ? param : 'armacoes';
     const kpis=`<div class="grid g-4" style="margin-bottom:var(--gap)">
-      ${kpiCard({label:'SKUs ativos',value:346,delta:4,icon:'glasses',tone:'primary',fmt:fmt.num})}
-      ${kpiCard({label:'Valor de tabela',value:842700,delta:6,icon:'tag',tone:'success',fmt:fmt.moneyK})}
-      ${kpiCard({label:'Margem média',value:58.4,delta:1.8,icon:'percent',tone:'violet',fmt:v=>fmt.dec(v)+'%'})}
-      ${kpiCard({label:'Abaixo do mínimo',value:8,delta:-12,icon:'alert-triangle',tone:'warning',fmt:fmt.num})}
+      ${kpiCard({label:'SKUs ativos',value:0,delta:0,icon:'glasses',tone:'primary',fmt:fmt.num})}
+      ${kpiCard({label:'Valor de tabela',value:0,delta:0,icon:'tag',tone:'success',fmt:fmt.moneyK})}
+      ${kpiCard({label:'Margem média',value:0,delta:0,icon:'percent',tone:'violet',fmt:v=>fmt.dec(v)+'%'})}
+      ${kpiCard({label:'Abaixo do mínimo',value:0,delta:0,icon:'alert-triangle',tone:'warning',fmt:fmt.num})}
     </div>`;
     const tabsHtml=`<div class="tabs">${TABS.map(t=>`<a class="tab ${t[0]===tab?'active':''}" href="#produtos/${t[0]}">${t[1]}</a>`).join('')}</div>`;
     return `<div class="page">
@@ -17,13 +17,17 @@
         <button class="btn ghost">${icon('scan')}<span class="hide-sm">Ler código</span></button>
         <button class="btn primary" onclick="toast('Novo produto (demo)','info')">${icon('plus')} Novo produto</button>`})}
       ${kpis}
-      ${aiBanner({text:'A IA sugere destacar <b>armações Ray-Ban</b> na vitrine hoje — alta procura prevista para o período da tarde.',cta:'Ver catálogo',route:'catalogo'})}
       ${tabsHtml}
       ${renderTab(tab)}
     </div>`;
   }
 
   function renderTab(tab){
+    const lists={armacoes:DATA.armacoes,lentes:DATA.lentes,contato:DATA.contato,acessorios:DATA.acessorios};
+    const meta={armacoes:['armação','armações','glasses'],lentes:['lente','lentes','eye'],contato:['lente de contato','lentes de contato','droplet'],acessorios:['acessório','acessórios','box']};
+    if(!lists[tab].length){ const [sing,plur,ic]=meta[tab];
+      return panel({title:plur.charAt(0).toUpperCase()+plur.slice(1),sub:'0 cadastrados',icon:ic,tone:'primary',
+        body:`<div class="empty" style="padding:56px 20px">${icon(ic)}<h3 style="font-size:16px;margin-bottom:6px">Nenhuma ${sing} cadastrada</h3><p style="max-width:380px;margin:0 auto 16px">Cadastre suas ${plur} para controlar preço, estoque e localização.</p><button class="btn primary" onclick="toast('Novo produto (demo)','info')">${icon('plus')} Cadastrar ${sing}</button></div>`}); }
     if(tab==='armacoes'){
       const cards=DATA.armacoes.map(a=>`
         <div class="prod-card" onclick="toast('${a.marca} ${a.modelo}','info')">

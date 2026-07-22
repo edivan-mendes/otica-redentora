@@ -5,20 +5,25 @@ const NAV = [
   { group:null, items:[
     { r:'dashboard', label:'Dashboard', icon:'layout-dashboard' },
   ]},
-  { group:'Comercial', items:[
+  { group:'Cadastros', items:[
     { r:'clientes', label:'Clientes', icon:'users' },
+    { r:'medicos',  label:'Médicos',  icon:'stethoscope' },
+    { r:'produtos', label:'Produtos', icon:'glasses' },
+    { r:'fornecedores', label:'Fornecedores', icon:'truck' },
+    { r:'funcionarios', label:'Funcionários', icon:'users' },
+  ]},
+  { group:'Comercial', items:[
     { r:'crm', label:'CRM & Campanhas', icon:'megaphone' },
     { r:'agenda', label:'Agenda', icon:'calendar' },
     { r:'vendas', label:'Vendas · PDV', icon:'shopping-cart' },
-    { r:'medicos',  label:'Médicos',  icon:'stethoscope' },
+    { r:'fidelidade', label:'Clube & Fidelidade', icon:'gift' },
   ]},
   { group:'Produção', items:[
-    { r:'os',     label:'Ordens de Serviço', icon:'clipboard-list', badge:'<span class="badge danger">3</span>' },
+    { r:'os',     label:'Ordens de Serviço', icon:'clipboard-list' },
     { r:'laboratorios', label:'Laboratórios', icon:'flask' },
   ]},
   { group:'Estoque', items:[
-    { r:'produtos', label:'Produtos', icon:'glasses' },
-    { r:'estoque',label:'Estoque', icon:'package', badge:'<span class="badge warning">8</span>' },
+    { r:'estoque',label:'Estoque', icon:'package' },
   ]},
   { group:'Financeiro', items:[
     { r:'financeiro', label:'Financeiro', icon:'wallet' },
@@ -28,11 +33,6 @@ const NAV = [
     { r:'bi', label:'Business Intelligence', icon:'pie-chart' },
     { r:'ia', label:'Redentora IA', icon:'sparkles', badge:'<span class="badge violet">IA</span>' },
     { r:'relatorios', label:'Relatórios', icon:'bar-chart-3' },
-  ]},
-  { group:'Experiência+', items:[
-    { r:'prova', label:'Prova Virtual', icon:'scan' },
-    { r:'catalogo', label:'Catálogo Digital', icon:'image' },
-    { r:'fidelidade', label:'Clube & Fidelidade', icon:'gift' },
   ]},
   { group:'Sistema', items:[
     { r:'config', label:'Configurações', icon:'settings' },
@@ -56,9 +56,8 @@ const App = {
     document.getElementById('searchIco').innerHTML = icon('search');
     document.getElementById('calBtn').innerHTML = icon('calendar');
     document.getElementById('execBtn').innerHTML = icon('target')+' Modo Executivo';
-    document.getElementById('newBtn').innerHTML = icon('plus')+'<span class="nlab">Novo</span>'+icon('chevron-down');
-    document.getElementById('iaBtn').innerHTML = icon('sparkles')+'<span class="count-badge">4</span>';
-    document.getElementById('bellBtn').innerHTML = icon('bell')+'<span class="count-badge">4</span>';
+    document.getElementById('iaBtn').innerHTML = icon('sparkles');
+    document.getElementById('bellBtn').innerHTML = icon('bell');
     this.buildFab();
     this.syncThemeIcon();
     // user
@@ -234,19 +233,18 @@ const App = {
         <div class="notif-sev t-${n.sev}">${icon(n.ico)}${n.count?`<span class="cnt" style="background:var(--${n.sev})">${n.count}</span>`:''}</div>
         <div class="grow"><b>${n.titulo}</b><p>${n.txt}</p></div>${icon('chevron-right','muted')}</div>`;
     const dayH=t=>`<div class="spot-group" style="padding:10px 2px 8px">${t}</div>`;
-    const rows = dayH('Hoje')+DATA.notificacoesSmart.map(nItem).join('')
-      +dayH('Esta semana')+DATA.notificacoesSemana.map(nItem).join('')
-      +dayH('Este mês')+DATA.notificacoesMes.map(nItem).join('');
+    const total = DATA.notificacoesSmart.length + DATA.notificacoesSemana.length + DATA.notificacoesMes.length;
+    const grp=(t,arr)=>arr.length?dayH(t)+arr.map(nItem).join(''):'';
+    const rows = total
+      ? grp('Hoje',DATA.notificacoesSmart)+grp('Esta semana',DATA.notificacoesSemana)+grp('Este mês',DATA.notificacoesMes)
+      : `<div class="empty" style="padding:44px 20px">${icon('bell')}<h3 style="font-size:15px;margin-bottom:4px">Tudo em ordem</h3><p>Nenhuma notificação no momento. Os alertas aparecem conforme você usa o sistema.</p></div>`;
     openDrawer(`
       <div class="modal-head">
-        <div class="card-title-ico"><div class="ci t-primary">${icon('bell')}</div><div><h3>Notificações inteligentes</h3><div class="sub">Priorizadas por severidade</div></div></div>
+        <div class="card-title-ico"><div class="ci t-primary">${icon('bell')}</div><div><h3>Notificações</h3><div class="sub">${total} no total</div></div></div>
         <button class="icon-btn" onclick="closeModal()">${icon('x')}</button>
       </div>
       <div class="card-body">
-        <div class="row between mb-1"><div class="row gap-xs"><span class="badge danger">🔴 1</span><span class="badge warning">🟡 2</span><span class="badge success">🟢 1</span><span class="badge info">🔵 1</span></div>
-          <a class="muted" style="font-size:12px;cursor:pointer" onclick="toast('Tudo marcado como lido','success')">Limpar</a></div>
         ${rows}
-        <button class="btn block ghost mt-2" onclick="App.go('ia');closeModal()">${icon('sparkles')} Ver central de inteligência</button>
       </div>`);
   },
 
@@ -276,7 +274,8 @@ const App = {
       case 'cliente': this.go('clientes'); setTimeout(()=>window.openClienteForm&&window.openClienteForm(),120); break;
       case 'os': this.go('vendas'); toast('Monte o pedido para gerar a OS','info'); break;
       case 'agenda': this.go('agenda'); toast('Novo compromisso','info'); break;
-      case 'fornecedor': this.go('estoque'); toast('Cadastro de fornecedor (demo)','info'); break;
+      case 'fornecedor': this.go('fornecedores'); toast('Cadastro de fornecedor (demo)','info'); break;
+      case 'funcionario': this.go('funcionarios'); toast('Cadastro de funcionário (demo)','info'); break;
       case 'produto': location.hash='#produtos/armacoes'; setTimeout(()=>toast('Novo produto (demo)','info'),120); break;
       case 'receita': this.go('clientes'); toast('Selecione o cliente para registrar a receita','info'); break;
       case 'medico': this.go('medicos'); toast('Cadastro de médico (demo)','info'); break;
@@ -320,13 +319,13 @@ const App = {
         <button class="icon-btn" onclick="closeModal()">${icon('x')}</button>
       </div>
       <div class="card-body">
-        <div class="insight ai" style="margin-bottom:14px"><div class="tag-ai">${icon('cpu')} Resumo do dia</div><p><b>Bom dia, Ana!</b> Encontrei <b>4 oportunidades</b> hoje. Posso agir em qualquer uma delas. 👇</p></div>
+        ${(()=>{ const n=DATA.iaCopilot.length; return `<div class="insight ai" style="margin-bottom:14px"><div class="tag-ai">${icon('cpu')} Resumo</div><p>${n?`<b>Olá!</b> Encontrei <b>${n} ${n===1?'oportunidade':'oportunidades'}</b> hoje. Posso agir em qualquer uma delas. 👇`:`<b>Bem-vindo(a) à Ótica Redentora!</b> Ainda não há movimentação. Assim que você começar a cadastrar clientes, produtos e vendas, eu trago insights e oportunidades aqui.`}</p></div>`; })()}
         ${finds}
         <div class="row gap-xs fw" style="margin:14px 0 4px">${DATA.copilotAcoes.map((a,i)=>`<button class="btn ${i===0?'primary':'soft'} sm" onclick="App.go('${a.route}');closeModal()">${icon(a.ico)} ${a.label}</button>`).join('')}</div>
         <div class="hr" style="margin:16px 0"></div>
         <div class="muted" style="font-size:11.5px;font-weight:700;margin-bottom:8px">PERGUNTE AO COPILOTO</div>
         <div class="chat-log" id="copilotLog">
-          <div class="chat-msg ai">Quer que eu detalhe alguma dessas oportunidades ou prefere um <b>relatório do dia</b>?</div>
+          <div class="chat-msg ai">Posso te ajudar a começar. O que você quer fazer primeiro?</div>
         </div>
         <div class="row gap-xs fw" style="margin:12px 0">${chips}</div>
         <div class="copilot-input">
@@ -340,13 +339,12 @@ const App = {
     const inp=document.getElementById('copilotInput'), log=document.getElementById('copilotLog'); if(!inp||!log) return;
     const q=inp.value.trim(); if(!q) return;
     const replies={
-      'faça um relatório do mês':'📊 <b>Julho/2026</b>: receita <b>R$ 487k</b> (+8,7%), lucro <b>R$ 51,9k</b>, margem 10,6%, 578 vendas e ticket médio R$ 842. Categoria líder: <b>Armações (41%)</b>. Quer que eu exporte em PDF?',
-      'qual vendedor vendeu mais?':'🏆 <b>Carla Mendes</b> lidera com <b>R$ 98,3k</b> (109% da meta) e 44% de conversão — 16% acima da média da equipe.',
-      'quais clientes devo ligar?':'📞 Priorize estes 5: <b>Fernanda Lima, Marcelo Nunes, Gustavo Pereira, Patrícia Gomes e Thiago Barbosa</b>. Juntos somam <b>R$ 18.400</b> em potencial de recompra. Quer que eu abra a campanha?',
-      'existem contas atrasadas?':'⚠ Sim: <b>3 títulos vencidos</b> somando <b>R$ 1.100</b> (crediário de Roberto Dias e Anderson Silva + aluguel). Posso acionar a régua de cobrança automática.',
-      'qual produto mais vende?':'👓 A lente <b>Zeiss DuraVision Blue</b> é a campeã (112 un · R$ 56k), seguida da <b>Ray-Ban Aviator</b> (48 un). Atenção: a Zeiss Blue está com <b>estoque baixo</b> — vale repor.'
+      'como começo a usar o sistema?':'Comece pelos <b>Cadastros</b>: registre seus <b>produtos</b> (armações, lentes), seus <b>clientes</b> e a sua <b>equipe</b>. Depois é só usar o <b>PDV</b> para registrar vendas — os dashboards e relatórios se preenchem sozinhos.',
+      'o que preciso cadastrar primeiro?':'Sugiro esta ordem: <b>1)</b> Produtos e Fornecedores · <b>2)</b> Funcionários · <b>3)</b> Clientes e Médicos. Com isso pronto, você já registra vendas e ordens de serviço.',
+      'como registro uma venda?':'Abra <b>Vendas · PDV</b>, busque os produtos, selecione o cliente e a forma de pagamento. Ao finalizar, o sistema gera a <b>Ordem de Serviço</b> automaticamente.',
+      'como cadastro um produto?':'Vá em <b>Cadastros → Produtos</b>, escolha a aba (Armações, Lentes, Lentes de contato ou Acessórios) e clique em <b>Novo produto</b>.'
     };
-    const ans=replies[q.toLowerCase()]||`Analisei "<b>${q}</b>". Com base nos dados de hoje, recomendo priorizar as 3 OS atrasadas e recuperar os 46 clientes inativos (R$ 28.400 em potencial). Quer que eu detalhe algum ponto?`;
+    const ans=replies[q.toLowerCase()]||`Ainda estou conhecendo a sua ótica. Cadastre alguns dados (produtos, clientes, vendas) que eu passo a trazer análises e recomendações reais aqui.`;
     log.insertAdjacentHTML('beforeend',`<div class="chat-msg me">${q}</div>`); inp.value='';
     const scroll=()=>{ const d=log.parentElement; if(d) d.scrollTop=d.scrollHeight; };
     log.insertAdjacentHTML('beforeend',`<div class="chat-msg ai typing" id="ai-typing"><i></i><i></i><i></i></div>`); scroll();
@@ -369,9 +367,9 @@ const App = {
           <div class="row gap-xs mt-1"><span class="badge success dot">Online</span><span class="badge">${u.loja}</span></div></div>
         </div>
         <div class="mini-metrics mb-1">
-          <div class="mm"><div class="l">Vendas (mês)</div><div class="v">R$ 98,3k</div></div>
-          <div class="mm"><div class="l">Meta</div><div class="v">109%</div></div>
-          <div class="mm"><div class="l">Conversão</div><div class="v">44%</div></div>
+          <div class="mm"><div class="l">Vendas (mês)</div><div class="v">R$ 0</div></div>
+          <div class="mm"><div class="l">Meta</div><div class="v">0%</div></div>
+          <div class="mm"><div class="l">Conversão</div><div class="v">0%</div></div>
         </div>
         <div class="hr mt-2"></div>
         <div class="col" style="gap:6px;margin-top:12px">

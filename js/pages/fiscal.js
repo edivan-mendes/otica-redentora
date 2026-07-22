@@ -27,7 +27,6 @@
         <button class="btn ghost" onclick="toast('Gerando arquivo SPED...','info')">${icon('file-text')}<span class="hide-sm">SPED</span></button>
         <button class="btn primary" onclick="toast('Emitindo nota fiscal...','success')">${icon('plus')} Emitir nota</button>`})}
       ${kpis}
-      ${aiBanner({text:'Compliance em dia: <b>nenhuma inconsistência tributária</b> detectada este mês. Próxima obrigação: <b>SPED Fiscal em 20/08</b>.',cta:'Ver agenda fiscal',route:'agenda'})}
       <div class="grid g-3" style="margin-bottom:var(--gap)">
         ${panel({title:'Documentos por tipo',sub:'Distribuição no mês',icon:'pie-chart',tone:'info',body:`
           <div class="row center" style="gap:16px">${Charts.donut(tipos,{size:150,center:'<div class="rv" style="font-size:15px">1.284</div><div class="rl">notas</div>'})}
