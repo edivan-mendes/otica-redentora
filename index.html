@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ótica Redentora</title>
+  <meta name="description" content="Ótica Redentora · Plataforma de gestão inteligente para óticas. Vendas, estoque, ordens de serviço, financeiro, CRM, BI e IA.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%232f6bff'/><g fill='none' stroke='white' stroke-width='2' stroke-linecap='round'><circle cx='8' cy='14' r='3.4'/><circle cx='16' cy='14' r='3.4'/><path d='M11.4 14a1.4 1.4 0 0 1 1.2-.7 1.4 1.4 0 0 1 1.2.7'/></g></svg>">
+</head>
+<body>
+  <div class="app-bg"><div class="mesh"></div></div>
+  <div class="app" id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="8" cy="14" r="3.6"/><circle cx="16" cy="14" r="3.6"/>
+            <path d="M11.6 14a1.4 1.4 0 0 1 1.2-.8 1.4 1.4 0 0 1 1.2.8"/>
+            <path d="M4.6 12 6 8.5c.4-.9.9-1.3 1.8-1.3"/><path d="M19.4 12 18 8.5c-.4-.9-1-1.3-1.8-1.3"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="name">Ótica <b>Redentora</b></div>
+          <div class="tag">ERP Óticas</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav"></nav>
+      <div class="side-foot">
+        <div class="side-upsell">
+          <h5>Redentora IA Pro</h5>
+          <p>Previsões, insights automáticos e prova virtual com IA.</p>
+          <button class="btn" onclick="App.go('ia')">Explorar IA</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-toggle" onclick="App.toggleMobileNav()" aria-label="Menu" id="menuBtn"></button>
+        <button class="icon-btn hide-sm" onclick="App.toggleCollapse()" aria-label="Recolher menu" id="collapseBtn"></button>
+        <label class="search desktop-search">
+          <span id="searchIco"></span>
+          <input type="text" placeholder="Buscar clientes, produtos, OS, receitas..." id="globalSearch">
+          <kbd>Ctrl K</kbd>
+        </label>
+        <div class="spacer"></div>
+        <button class="btn primary sm" onclick="App.toggleNewMenu(this)" id="newBtn"></button>
+        <div class="divider hide-sm"></div>
+        <button class="icon-btn hide-sm" onclick="App.go('agenda')" aria-label="Agenda" id="calBtn"></button>
+        <button class="icon-btn hide-sm" onclick="App.openCopilot()" aria-label="IA Copiloto" id="iaBtn"></button>
+        <button class="btn ghost sm hide-sm" onclick="App.enterExec()" id="execBtn">Modo Executivo</button>
+        <button class="icon-btn hide-sm" onclick="App.toggleTheme()" aria-label="Tema" id="themeBtn"></button>
+        <button class="icon-btn" onclick="App.openNotifications()" aria-label="Notificações" id="bellBtn"></button>
+        <div class="divider hide-sm"></div>
+        <button class="profile" onclick="App.openProfile()">
+          <div class="av" id="profileAv">AB</div>
+          <div class="who"><b id="profileName">Ana Beatriz</b><span id="profileRole">Gerente</span></div>
+        </button>
+      </header>
+      <div id="view"></div>
+    </div>
+    <div class="scrim" onclick="App.toggleMobileNav()"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pages/dashboard.js"></script>
+  <script src="js/pages/clientes.js"></script>
+  <script src="js/pages/medicos.js"></script>
+  <script src="js/pages/produtos.js"></script>
+  <script src="js/pages/estoque.js"></script>
+  <script src="js/pages/vendas.js"></script>
+  <script src="js/pages/os.js"></script>
+  <script src="js/pages/laboratorios.js"></script>
+  <script src="js/pages/financeiro.js"></script>
+  <script src="js/pages/fiscal.js"></script>
+  <script src="js/pages/crm.js"></script>
+  <script src="js/pages/agenda.js"></script>
+  <script src="js/pages/relatorios.js"></script>
+  <script src="js/pages/bi.js"></script>
+  <script src="js/pages/ia.js"></script>
+  <script src="js/pages/diferenciais.js"></script>
+  <script src="js/pages/config.js"></script>
+</body>
+</html>

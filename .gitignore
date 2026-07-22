@@ -1,0 +1,8 @@
+# Ótica Redentora — site estático (sem build)
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.vscode/
+.idea/
