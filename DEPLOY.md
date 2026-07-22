@@ -1,7 +1,7 @@
 # Deploy — Ótica Redentora (runbook)
 
 Site **100% estático, sem build** (HTML/CSS/JS + Google Fonts via CDN).
-Modelo idêntico ao obra-sync: **GitHub → Cloudflare Pages**.
+Fluxo: **GitHub → Cloudflare Pages** (deploy automático a cada push).
 
 | Ambiente | Branch | Publica |
 |---|---|---|
@@ -33,9 +33,9 @@ git push -u origin develop
 5. `develop` passa a gerar previews automáticos a cada push (homologação).
 
 ## 4. Domínio próprio (opcional)
-Pages → **Custom domains** → adicionar (ex.: `redentora.corpalms.com.br` ou o
-domínio da ótica) → criar o **CNAME** que o Cloudflare indicar no DNS.
-HTTPS é automático (certificado gerenciado).
+Pages → **Custom domains** → adicionar o seu domínio próprio
+(ex.: `oticaredentora.com.br`) → criar o **CNAME** que o Cloudflare indicar
+no DNS. HTTPS é automático (certificado gerenciado).
 
 ## 5. Dia a dia (publicar uma nova versão)
 ```powershell
