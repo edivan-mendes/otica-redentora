@@ -171,7 +171,7 @@
     const emptyBox = (ic,t)=>`<div class="empty" style="padding:36px 16px">${icon(ic)}<p style="margin-top:6px">${t}</p></div>`;
     return `<div class="exec-view">
       <div class="exec-topbar">
-        <div class="et-brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="8" cy="14" r="3.6"/><circle cx="16" cy="14" r="3.6"/><path d="M11.6 14a1.4 1.4 0 0 1 1.2-.8 1.4 1.4 0 0 1 1.2.8"/></svg></div>
+        <div class="et-brand"><div class="logo"><img src="assets/logo-redentora.png" alt="Ótica Redentora"></div>
           <div><b style="font-family:var(--font-display);font-size:16px">Modo Executivo</b><div class="muted" style="font-size:12px">${DATA.user.loja}</div></div></div>
         <div class="row gap-xs"><button class="btn ghost sm" onclick="App.toggleTheme()">${icon('moon')}</button><button class="btn primary sm" onclick="App.exitExec()">${icon('x')} Sair</button></div>
       </div>
